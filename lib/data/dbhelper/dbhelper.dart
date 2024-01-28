@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqlite_api.dart';
@@ -31,9 +30,8 @@ class DBHelper {
 
   static Future<List<Map<String, dynamic>>> getData(String tablename) async {
     final db = await DBHelper.database();
-    try {
-      return db.query(tablename);
-    } catch (err) {}
+
+    return db.query(tablename);
   }
 
   static Future<void> updateData(
