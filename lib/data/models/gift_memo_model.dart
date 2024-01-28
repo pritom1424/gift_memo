@@ -1,5 +1,5 @@
-import 'package:gift_memo/core/giftmemo%20enums/guests_gen.dart';
-import 'package:gift_memo/data/models/gift.dart';
+import '../../core/giftmemo_enums/guests_gen.dart';
+import 'gift.dart';
 
 class GiftMemoModel {
   final String id;
