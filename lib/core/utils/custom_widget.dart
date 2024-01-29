@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gift_memo/core/utils/values.dart';
+import 'package:gift_memo/data/models/gift_memo_model.dart';
+import 'package:gift_memo/domain/giftmemo_manager.dart';
 import 'package:gift_memo/main.dart';
 
 import 'package:gift_memo/presentation/screens/home_screen.dart';
 import 'package:gift_memo/presentation/screens/input_screen.dart';
+import 'package:gift_memo/presentation/widgets/single_gift_memo_card.dart';
 
 class CustomWidgetsUtils {
   Widget topfilterButton(String name, Function onPress) =>
@@ -27,11 +30,25 @@ class CustomWidgetsUtils {
             ],
           ));
 
-  Map<String, Widget Function(BuildContext)> routeList(BuildContext ctx) {
-    return {
-      "/": (ctx) => const MyHomePage(),
-      Values.homeScreenRouteName: (ctx) => const HomeScreen(),
-      Values.inputScreenRouteName: (ctx) => const InputScreen(),
-    };
+  Map<String, Widget Function(BuildContext)> routeList(BuildContext ctx) => {
+        "/": (ctx) => const MyHomePage(),
+        Values.homeScreenRouteName: (ctx) => const HomeScreen(),
+        Values.inputScreenRouteName: (ctx) => const InputScreen(),
+      };
+  ListView showMemoList(List<GiftMemoModel> memoList, GiftMemoManager gManager,
+      BuildContext context) {
+    return ListView.builder(
+      itemCount: memoList.length,
+      itemBuilder: (ctx, i) => Dismissible(
+        onDismissed: (dis) {
+          final removeItem = memoList[i];
+          gManager.removeMemo(removeItem);
+        },
+        key: ValueKey(memoList),
+        confirmDismiss: (dir) =>
+            CustomWidgetsUtils().deleteAlertDialoguePop(context),
+        child: SingleGiftMemoCard(memoList[i]),
+      ),
+    );
   }
 }

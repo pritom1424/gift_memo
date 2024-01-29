@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
 import 'package:gift_memo/core/utils/utils.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
-import 'package:gift_memo/presentation/screens/home_screen.dart';
 import 'package:gift_memo/presentation/screens/input_screen.dart';
 
 class GuestDetailsScreen extends StatelessWidget {
@@ -14,7 +12,6 @@ class GuestDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Guest Details"),
-        actions: [],
       ),
       body: SizedBox(
         width: double.infinity,

@@ -41,10 +41,10 @@ class _InputScreenState extends State<InputScreen> {
 
   @override
   Widget build(BuildContext context) {
-    guestNameInputController.text = "selina";
+    //  guestNameInputController.text = "selina";
     return Scaffold(
       appBar: AppBar(
-        title: Text("Input"),
+        title: const Text("Input"),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),

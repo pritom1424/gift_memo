@@ -7,13 +7,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          TopBarFiterScreen(),
-          Expanded(child: GiftMemoListScreen()),
-        ],
-      ),
+    return const Column(
+      children: [
+        TopBarFiterScreen(),
+        Expanded(child: GiftMemoListScreen()),
+      ],
     );
   }
 }

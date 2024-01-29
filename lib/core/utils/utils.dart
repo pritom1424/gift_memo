@@ -1,10 +1,33 @@
 import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
+import 'package:gift_memo/core/giftmemo_enums/guests_gen.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
   String dateTimeToText(DateTime dateTime) {
     return DateFormat.yMMMd().format(dateTime);
+  }
+
+  GiftType stringToGiftType(String tName) {
+    switch (tName) {
+      case 'gift':
+        return GiftType.gift;
+      case 'money':
+        return GiftType.money;
+      default:
+        return GiftType.both;
+    }
+  }
+
+  GuestGender stringToGenderType(String tName) {
+    switch (tName) {
+      case 'male':
+        return GuestGender.male;
+      case 'female':
+        return GuestGender.female;
+      default:
+        return GuestGender.other;
+    }
   }
 
   String giftTypeToCardText(GiftMemoModel giftMemoModel) {

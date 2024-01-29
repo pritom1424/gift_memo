@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gift_memo/presentation/screens/guest_detailscreen.dart';
-import '../../core/giftmemo_enums/gift_type.dart';
 import '../../data/models/gift_memo_model.dart';
 import '../../core/utils/utils.dart';
 

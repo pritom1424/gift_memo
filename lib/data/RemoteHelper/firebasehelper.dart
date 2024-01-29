@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireBaseHelper {
-  final String _collectionName = "guest_gifts";
+  static final String _collectionName = "guest_gifts";
 
-  Future<void> insert(String id, Map<String, dynamic> data) async {
+  static Future<void> insert(String id, Map<String, dynamic> data) async {
     //login
     try {
       await FirebaseFirestore.instance
@@ -15,14 +15,14 @@ class FireBaseHelper {
     }
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getData(String id) async {
+  static Future<QuerySnapshot<Map<String, dynamic>>> getData() async {
     //login
     final giftData =
         await FirebaseFirestore.instance.collection(_collectionName).get();
     return giftData;
   }
 
-  Future<void> deleteData(String id) async {
+  static Future<void> deleteData(String id) async {
     //login
     try {
       await FirebaseFirestore.instance
@@ -34,7 +34,8 @@ class FireBaseHelper {
     }
   }
 
-  Future<void> updateData(String id, Map<String, dynamic> updatedData) async {
+  static Future<void> updateData(
+      String id, Map<String, dynamic> updatedData) async {
     //login
     try {
       await FirebaseFirestore.instance
