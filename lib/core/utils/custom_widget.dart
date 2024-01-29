@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gift_memo/core/utils/values.dart';
+import 'package:gift_memo/main.dart';
+
+import 'package:gift_memo/presentation/screens/home_screen.dart';
+import 'package:gift_memo/presentation/screens/input_screen.dart';
 
 class CustomWidgetsUtils {
   Widget topfilterButton(String name, Function onPress) =>
@@ -21,4 +26,12 @@ class CustomWidgetsUtils {
                   child: const Text("No"))
             ],
           ));
+
+  Map<String, Widget Function(BuildContext)> routeList(BuildContext ctx) {
+    return {
+      "/": (ctx) => const MyHomePage(),
+      Values.homeScreenRouteName: (ctx) => const HomeScreen(),
+      Values.inputScreenRouteName: (ctx) => const InputScreen(),
+    };
+  }
 }

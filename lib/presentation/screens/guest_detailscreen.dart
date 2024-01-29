@@ -30,7 +30,7 @@ class GuestDetailsScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.edit),
+        child: const Icon(Icons.edit),
         onPressed: () {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => InputScreen()),

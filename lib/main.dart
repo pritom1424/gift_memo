@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gift_memo/presentation/screens/giftmemo_listscn.dart';
+import 'package:gift_memo/core/utils/custom_widget.dart';
+import 'package:gift_memo/core/utils/values.dart';
 import 'package:gift_memo/presentation/screens/home_screen.dart';
-import 'package:gift_memo/presentation/screens/input_screen.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
+      routes: CustomWidgetsUtils().routeList(context),
     );
   }
 }
@@ -45,10 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           actions: [
             IconButton(
-                onPressed: () => Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (ctx) => InputScreen()),
-                    (route) => false),
-                icon: Icon(Icons.add))
+                onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                    Values.inputScreenRouteName, (route) => false),
+                icon: const Icon(Icons.add))
           ],
         ),
         body: const HomeScreen());
