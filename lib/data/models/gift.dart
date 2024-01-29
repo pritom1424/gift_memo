@@ -1,6 +1,6 @@
-import 'package:gift_memo/core/giftmemo_enums/giftType.dart';
+import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
 
-abstract class Gift {
+class Gift {
   final String giftName;
   final String giftMoneyName;
   final int giftAmount;
