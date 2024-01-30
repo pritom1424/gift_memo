@@ -17,8 +17,10 @@ class FireBaseHelper {
 
   static Future<QuerySnapshot<Map<String, dynamic>>> getData() async {
     //login
-    final giftData =
-        await FirebaseFirestore.instance.collection(_collectionName).get();
+    final giftData = await FirebaseFirestore.instance
+        .collection(_collectionName)
+        .orderBy('date', descending: true)
+        .get();
     return giftData;
   }
 

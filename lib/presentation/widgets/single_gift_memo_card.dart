@@ -17,7 +17,7 @@ class SingleGiftMemoCard extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,16 +38,7 @@ class SingleGiftMemoCard extends StatelessWidget {
                         color: Colors.black),
                   ),
                   const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(_giftMemoModel.gender.name),
-                      Text(
-                        Utils().dateTimeToText(_giftMemoModel.date),
-                        // style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
+                  Text(_giftMemoModel.gender.name),
                 ],
               )
             ],

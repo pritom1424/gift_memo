@@ -28,6 +28,8 @@ class GiftMemoListScreen extends StatelessWidget {
                     final memoList =
                         gManager.getfilterdMemo(Values.currentMemolistType);
 
+                    print(Values.currentMemolistType);
+
                     return memoList.isEmpty
                         ? ch!
                         : CustomWidgetsUtils()

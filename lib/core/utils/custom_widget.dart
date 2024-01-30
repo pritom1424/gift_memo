@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gift_memo/core/giftmemo_enums/memolist_type.dart';
 import 'package:gift_memo/core/utils/values.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
 import 'package:gift_memo/domain/giftmemo_manager.dart';
@@ -7,6 +8,7 @@ import 'package:gift_memo/main.dart';
 import 'package:gift_memo/presentation/screens/home_screen.dart';
 import 'package:gift_memo/presentation/screens/input_screen.dart';
 import 'package:gift_memo/presentation/widgets/single_gift_memo_card.dart';
+import 'package:provider/provider.dart';
 
 class CustomWidgetsUtils {
   Widget topfilterButton(String name, Function onPress) =>

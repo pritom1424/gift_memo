@@ -45,10 +45,10 @@ class Utils {
       case GiftType.gift:
         return giftMemoModel.gift.giftName;
       case GiftType.both:
-        return "${giftMemoModel.gift.giftName} + ${giftMemoModel.gift.moneyAmount}(${giftMemoModel.gift.giftMoneyName})";
+        return "${giftMemoModel.gift.giftName} + ${giftMemoModel.gift.moneyAmount}(Tk)";
 
       default:
-        return "${giftMemoModel.gift.moneyAmount}+${giftMemoModel.gift.giftMoneyName}";
+        return "${giftMemoModel.gift.moneyAmount}(Tk)";
     }
   }
 
@@ -57,10 +57,10 @@ class Utils {
       case GiftType.gift:
         return "${giftMemoModel.gift.giftName}(x${giftMemoModel.gift.giftAmount})";
       case GiftType.both:
-        return "${giftMemoModel.gift.giftName}(x${giftMemoModel.gift.giftAmount}) + ${giftMemoModel.gift.moneyAmount}(${giftMemoModel.gift.giftMoneyName})";
+        return "${giftMemoModel.gift.giftName}(x${giftMemoModel.gift.giftAmount}) + ${giftMemoModel.gift.moneyAmount}(Tk)";
 
       default:
-        return "${giftMemoModel.gift.moneyAmount}+${giftMemoModel.gift.giftMoneyName}";
+        return "${giftMemoModel.gift.moneyAmount}(Tk)";
     }
   }
 }

@@ -19,32 +19,22 @@ class InputScreen extends StatefulWidget {
 class _InputScreenState extends State<InputScreen> {
   late TextEditingController guestNameInputController;
   late TextEditingController giftInputController;
-  late TextEditingController moneyInputController;
   late TextEditingController moneyAmountInputController;
   late TextEditingController giftAmountInputController;
-  DateTime _pickedDate = DateTime.now();
   GuestGender _selectedGender = GuestGender.male;
   void saveMemo() {
-    if (double.tryParse(moneyAmountInputController.text) == null ||
-        int.tryParse(giftAmountInputController.text) == null) {
-      CustomWidgetsUtils().invalidInputPop(context, Values.inavlidInputMessage);
-      return;
+    if (giftInputController.text == "") {
+      giftInputController.text = "Gift";
     }
-    if (guestNameInputController.text == "" ||
-        giftInputController.text == "" ||
-        moneyInputController.text == "" ||
-        moneyAmountInputController.text == "" ||
-        giftAmountInputController.text == "") {
+    if (guestNameInputController.text == "") {
       CustomWidgetsUtils().invalidInputPop(context, Values.blankInputMessage);
       return;
     }
     final double moneyAmount =
-        double.tryParse(moneyAmountInputController.text)!;
-    final int giftAmount = int.tryParse(giftAmountInputController.text)!;
+        double.tryParse(moneyAmountInputController.text) ?? 0.0;
+    final int giftAmount = int.tryParse(giftAmountInputController.text) ?? 0;
 
     if (guestNameInputController.text == "" ||
-        giftInputController.text == "" ||
-        moneyInputController.text == "" ||
         giftAmount < 0 ||
         moneyAmount < 0) {
       CustomWidgetsUtils().invalidInputPop(context, Values.invalidValue);
@@ -57,38 +47,23 @@ class _InputScreenState extends State<InputScreen> {
           context, "Pls give any amount >0 in gift amount or money amount");
       return;
     }
-
+    final provider = Provider.of<GiftMemoManager>(context, listen: false);
     GiftMemoModel newMemo = GiftMemoModel(
         id: uuid.v4(),
         name: guestNameInputController.text,
         gift: Gift(
           giftName: giftInputController.text,
-          giftMoneyName: moneyInputController.text,
           giftAmount: giftAmount,
           moneyAmount: moneyAmount,
           gType: Utils().inputAmountsToGiftType(giftAmount, moneyAmount),
         ),
         gender: _selectedGender,
-        date: _pickedDate);
+        date: DateTime.now());
     print(Utils().inputAmountsToGiftType(giftAmount, moneyAmount));
     (Values.currentMemoModel != null)
-        ? Provider.of<GiftMemoManager>(context, listen: false)
-            .updateMemo(Values.currentMemoModel!.id, newMemo)
-        : Provider.of<GiftMemoManager>(context, listen: false).addMemo(newMemo);
+        ? provider.updateMemo(Values.currentMemoModel!, newMemo)
+        : provider.addMemo(newMemo);
     Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
-  }
-
-  void showCalender(BuildContext ct) async {
-    final now = DateTime.now();
-    final firstDate = DateTime(now.year - 1, now.month, now.day);
-    final selectedDate = await showDatePicker(
-        context: ct, initialDate: now, firstDate: firstDate, lastDate: now);
-
-    if (selectedDate != null) {
-      setState(() {
-        _pickedDate = selectedDate;
-      });
-    }
   }
 
   @override
@@ -97,14 +72,10 @@ class _InputScreenState extends State<InputScreen> {
 
     giftInputController = TextEditingController();
 
-    moneyInputController = TextEditingController();
-
     moneyAmountInputController = TextEditingController();
     giftAmountInputController = TextEditingController();
-
     if (Values.currentMemoModel != null) {
       guestNameInputController.text = Values.currentMemoModel!.name;
-      moneyInputController.text = Values.currentMemoModel!.gift.giftMoneyName;
       giftInputController.text = Values.currentMemoModel!.gift.giftName;
       giftAmountInputController.text =
           Values.currentMemoModel!.gift.giftAmount.toString();
@@ -112,7 +83,6 @@ class _InputScreenState extends State<InputScreen> {
           Values.currentMemoModel!.gift.moneyAmount.toString();
 
       _selectedGender = Values.currentMemoModel!.gender;
-      _pickedDate = Values.currentMemoModel!.date;
     }
 
     // TODO: implement initState
@@ -122,7 +92,6 @@ class _InputScreenState extends State<InputScreen> {
   @override
   void dispose() {
     guestNameInputController.dispose();
-    moneyInputController.dispose();
     giftInputController.dispose();
     moneyAmountInputController.dispose();
     giftAmountInputController.dispose();
@@ -192,13 +161,14 @@ class _InputScreenState extends State<InputScreen> {
                             controller: giftInputController,
                           ),
                         ),
+                        const Spacer(),
+                        const Text("Amount"),
                         const SizedBox(
                           width: 30,
                         ),
                         Flexible(
                           child: TextField(
-                            decoration:
-                                const InputDecoration(hintText: "Amount"),
+                            decoration: const InputDecoration(hintText: "0"),
                             keyboardType: TextInputType.number,
                             controller: giftAmountInputController,
                             onChanged: (amt) {
@@ -217,21 +187,14 @@ class _InputScreenState extends State<InputScreen> {
                   Flexible(
                     child: Row(
                       children: [
-                        Flexible(
-                          flex: 2,
-                          child: TextField(
-                            decoration: const InputDecoration(
-                                hintText: "Money(currency)"),
-                            controller: moneyInputController,
-                          ),
-                        ),
+                        const Flexible(child: Text("Money amount")),
                         const SizedBox(
                           width: 30,
                         ),
                         Flexible(
+                          flex: 2,
                           child: TextField(
-                            decoration:
-                                const InputDecoration(hintText: "Amount"),
+                            decoration: const InputDecoration(hintText: "0"),
                             keyboardType: TextInputType.number,
                             controller: moneyAmountInputController,
                           ),
@@ -242,19 +205,6 @@ class _InputScreenState extends State<InputScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Flexible(
-                      child: Row(
-                    children: [
-                      Text(
-                        Utils().dateTimeToText(_pickedDate),
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            showCalender(context);
-                          },
-                          icon: const Icon(Icons.calendar_month))
-                    ],
-                  ))
                 ],
               ),
             ),

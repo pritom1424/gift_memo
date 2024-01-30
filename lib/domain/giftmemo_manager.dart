@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
 import 'package:gift_memo/core/giftmemo_enums/memolist_type.dart';
 import 'package:gift_memo/core/utils/utils.dart';
+import 'package:gift_memo/core/utils/values.dart';
 import 'package:gift_memo/data/RemoteHelper/firebasehelper.dart';
 import 'package:gift_memo/data/models/gift.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
@@ -18,7 +19,6 @@ class GiftMemoManager with ChangeNotifier {
       "id": memo.id,
       "name": memo.name,
       "giftname": memo.gift.giftName,
-      "giftMoneyname": memo.gift.giftMoneyName,
       "giftAmount": memo.gift.giftAmount,
       "moneyAmount": memo.gift.moneyAmount,
       "gender": memo.gender.name,
@@ -35,20 +35,21 @@ class GiftMemoManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateMemo(String id, GiftMemoModel newMemo) {
+  void updateMemo(GiftMemoModel oldMemo, GiftMemoModel newMemo) {
     final modifiedMemo = GiftMemoModel(
-        id: id,
+        id: oldMemo.id,
         name: newMemo.name,
         gift: newMemo.gift,
         gender: newMemo.gender,
-        date: newMemo.date);
-    _memos[_memos.indexWhere((element) => element.id == id)] = modifiedMemo;
+        date: oldMemo.date);
+
+    _memos[_memos.indexWhere((element) => element.id == oldMemo.id)] =
+        modifiedMemo;
 
     FireBaseHelper.updateData(modifiedMemo.id, {
       "id": modifiedMemo.id,
       "name": modifiedMemo.name,
       "giftname": modifiedMemo.gift.giftName,
-      "giftMoneyname": modifiedMemo.gift.giftMoneyName,
       "giftAmount": modifiedMemo.gift.giftAmount,
       "moneyAmount": modifiedMemo.gift.moneyAmount,
       "gender": modifiedMemo.gender.name,
@@ -83,29 +84,27 @@ class GiftMemoManager with ChangeNotifier {
     final memoList = memoSnap.docs.map((doc) => doc.data()).toList();
     print("before fetch executed");
 
-    _memos = memoList
-        .map((itm) {
-          final giftAmount = itm['giftAmount'] as int;
-          final moneyAmount = itm['moneyAmount'] as double;
-          print(Utils().dateTimeToText(DateTime.parse(itm['date'].toString())));
-          return GiftMemoModel(
-              id: itm['id'].toString(),
-              name: itm['name'].toString(),
-              gift: Gift(
-                  giftName: itm['giftname'].toString(),
-                  giftMoneyName: itm['giftMoneyname'].toString(),
-                  giftAmount: giftAmount,
-                  moneyAmount: moneyAmount,
-                  gType:
-                      Utils().inputAmountsToGiftType(giftAmount, moneyAmount)),
-              gender:
-                  Utils().stringToGenderType(itm['gender'].toString().trim()),
-              date: DateTime.parse(itm['date'].toString().trim()));
-        })
-        .toList()
-        .reversed
-        .toList();
+    _memos = memoList.map((itm) {
+      final giftAmount = itm['giftAmount'] as int;
+      final moneyAmount = itm['moneyAmount'] as double;
+      print(Utils().dateTimeToText(DateTime.parse(itm['date'].toString())));
+      return GiftMemoModel(
+          id: itm['id'].toString(),
+          name: itm['name'].toString(),
+          gift: Gift(
+              giftName: itm['giftname'].toString(),
+              giftAmount: giftAmount,
+              moneyAmount: moneyAmount,
+              gType: Utils().inputAmountsToGiftType(giftAmount, moneyAmount)),
+          gender: Utils().stringToGenderType(itm['gender'].toString().trim()),
+          date: DateTime.parse(itm['date'].toString().trim()));
+    }).toList();
 
     print("fetch executed");
+  }
+
+  void setCurrentMemoListType(MemoListType mList) {
+    Values.currentMemolistType = mList;
+    notifyListeners();
   }
 }
