@@ -51,8 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           actions: [
             IconButton(
-                onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                    Values.inputScreenRouteName, (route) => false),
+                onPressed: () {
+                  Values.currentMemoModel = null;
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      Values.inputScreenRouteName, (route) => false);
+                },
                 icon: const Icon(Icons.add))
           ],
         ),

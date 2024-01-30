@@ -19,6 +19,16 @@ class Utils {
     }
   }
 
+  GiftType inputAmountsToGiftType(int giftAmount, double moneyAmount) {
+    if (giftAmount <= 0 && moneyAmount > 0.0) {
+      return GiftType.money;
+    } else if (giftAmount > 0 && moneyAmount <= 0.0) {
+      return GiftType.gift;
+    } else {
+      return GiftType.both;
+    }
+  }
+
   GuestGender stringToGenderType(String tName) {
     switch (tName) {
       case 'male':

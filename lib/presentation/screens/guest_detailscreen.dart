@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gift_memo/core/utils/utils.dart';
+import 'package:gift_memo/core/utils/values.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
 import 'package:gift_memo/presentation/screens/input_screen.dart';
 
@@ -29,9 +30,9 @@ class GuestDetailsScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.edit),
         onPressed: () {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => InputScreen()),
-              (route) => false);
+          Values.currentMemoModel = gModel;
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Values.inputScreenRouteName, (route) => false);
         },
       ),
     );

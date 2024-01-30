@@ -22,7 +22,7 @@ class GiftMemoManager with ChangeNotifier {
       "giftAmount": memo.gift.giftAmount,
       "moneyAmount": memo.gift.moneyAmount,
       "gender": memo.gender.name,
-      "date": memo.date
+      "date": memo.date.toIso8601String()
     });
 
     notifyListeners();
@@ -48,12 +48,11 @@ class GiftMemoManager with ChangeNotifier {
       "id": modifiedMemo.id,
       "name": modifiedMemo.name,
       "giftname": modifiedMemo.gift.giftName,
-      "giftType": modifiedMemo.gift.gType.name,
       "giftMoneyname": modifiedMemo.gift.giftMoneyName,
       "giftAmount": modifiedMemo.gift.giftAmount,
       "moneyAmount": modifiedMemo.gift.moneyAmount,
       "gender": modifiedMemo.gender.name,
-      "date": modifiedMemo.date
+      "date": modifiedMemo.date.toIso8601String()
     });
     //db
     notifyListeners();
@@ -82,21 +81,31 @@ class GiftMemoManager with ChangeNotifier {
   Future<void> fetchMemoList() async {
     final memoSnap = await FireBaseHelper.getData();
     final memoList = memoSnap.docs.map((doc) => doc.data()).toList();
+    print("before fetch executed");
 
     _memos = memoList
-        .map((itm) => GiftMemoModel(
-            id: itm['id'].toString(),
-            name: itm['name'].toString(),
-            gift: Gift(
-                giftName: itm['giftName'].toString(),
-                giftMoneyName: itm['giftMoneyName'].toString(),
-                giftAmount: itm['giftAmount'] as int,
-                moneyAmount: itm['moneyAmount'] as double,
-                gType: Utils().stringToGiftType(itm['giftType'].toString())),
-            gender: Utils().stringToGenderType(itm['gender'].toString()),
-            date: DateTime.parse(itm['date'].toString())))
+        .map((itm) {
+          final giftAmount = itm['giftAmount'] as int;
+          final moneyAmount = itm['moneyAmount'] as double;
+          print(Utils().dateTimeToText(DateTime.parse(itm['date'].toString())));
+          return GiftMemoModel(
+              id: itm['id'].toString(),
+              name: itm['name'].toString(),
+              gift: Gift(
+                  giftName: itm['giftname'].toString(),
+                  giftMoneyName: itm['giftMoneyname'].toString(),
+                  giftAmount: giftAmount,
+                  moneyAmount: moneyAmount,
+                  gType:
+                      Utils().inputAmountsToGiftType(giftAmount, moneyAmount)),
+              gender:
+                  Utils().stringToGenderType(itm['gender'].toString().trim()),
+              date: DateTime.parse(itm['date'].toString().trim()));
+        })
         .toList()
         .reversed
         .toList();
+
+    print("fetch executed");
   }
 }
