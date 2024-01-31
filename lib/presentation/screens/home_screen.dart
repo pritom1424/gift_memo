@@ -22,8 +22,8 @@ class HomeScreen extends StatelessWidget {
                   )
                 : const Column(
                     children: [
-                      TopBarFiltersWidget(),
-                      Expanded(child: GiftMemoListScreen()),
+                      Flexible(child: TopBarFiltersWidget()),
+                      Flexible(flex: 3, child: GiftMemoListScreen()),
                     ],
                   ));
   }

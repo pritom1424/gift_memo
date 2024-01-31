@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gift_memo/core/utils/utils.dart';
+import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
+import 'package:gift_memo/core/giftmemo_enums/guests_gen.dart';
+import 'package:gift_memo/core/utils/custom_widget.dart';
 import 'package:gift_memo/core/utils/values.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
-import 'package:gift_memo/presentation/screens/input_screen.dart';
+import 'package:gift_memo/presentation/widgets/details_profile_widget.dart';
+import 'package:gift_memo/presentation/widgets/details_summaryTable_widget.dart';
 
 class GuestDetailsScreen extends StatelessWidget {
   final GiftMemoModel gModel;
@@ -14,16 +17,15 @@ class GuestDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Guest Details"),
       ),
-      body: SizedBox(
+      body: Container(
         width: double.infinity,
+        padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            FittedBox(child: Text(gModel.name)),
-            FittedBox(child: Text(gModel.gender.name)),
-            FittedBox(
-              child: Text(Utils().giftTypeToDetailsText(gModel)),
-            )
+            DetailsProfileWidget(gModel),
+            DetailsSummaryTableWidget(gModel),
           ],
         ),
       ),

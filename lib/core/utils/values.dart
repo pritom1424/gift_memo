@@ -12,4 +12,6 @@ class Values {
   static const String invalidValue =
       "Fix any negative or invalid gift amount, money amount";
   static GiftMemoModel? currentMemoModel;
+  static String maleAvatarPath = "assets/images/male_avatar.png";
+  static String femaleAvatarPath = "assets/images/female_avatar.png";
 }

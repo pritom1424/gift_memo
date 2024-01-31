@@ -104,57 +104,50 @@ class _InputScreenState extends State<InputScreen> {
     //  guestNameInputController.text = "selina";
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Input"),
+        title: Text(
+            (Values.currentMemoModel == null) ? "Add Record" : "Update Record"),
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Flexible(
-              flex: 1,
-              child: Flexible(
-                child: Row(
-                  children: [
-                    Flexible(
-                      flex: 3,
-                      child: TextField(
-                        decoration: const InputDecoration(labelText: "Name"),
-                        controller: guestNameInputController,
-                      ),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: TextField(
+                      decoration: const InputDecoration(labelText: "Name"),
+                      controller: guestNameInputController,
                     ),
-                    Flexible(
-                      child: DropdownButton(
-                          value: _selectedGender,
-                          items: GuestGender.values
-                              .map((ge) => DropdownMenuItem(
-                                  value: ge,
-                                  child: Text(ge.name.toUpperCase())))
-                              .toList(),
-                          onChanged: (val) {
-                            if (val == null) {
-                              return;
-                            }
-                            setState(() {
-                              _selectedGender = val;
-                            });
-                          }),
-                    )
-                  ],
-                ),
+                  ),
+                  DropdownButton(
+                      value: _selectedGender,
+                      items: GuestGender.values
+                          .map((ge) => DropdownMenuItem(
+                              value: ge, child: Text(ge.name.toUpperCase())))
+                          .toList(),
+                      onChanged: (val) {
+                        if (val == null) {
+                          return;
+                        }
+                        setState(() {
+                          _selectedGender = val;
+                        });
+                      })
+                ],
               ),
             ),
             const SizedBox(
               height: 30,
             ),
             Flexible(
-              flex: 1,
+              flex: 2,
               child: Column(
                 children: [
                   Flexible(
                     child: Row(
                       children: [
                         Flexible(
-                          flex: 2,
                           child: TextField(
                             decoration:
                                 const InputDecoration(hintText: "Gift "),
@@ -205,27 +198,25 @@ class _InputScreenState extends State<InputScreen> {
                   const SizedBox(
                     height: 30,
                   ),
+                  Flexible(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                            onPressed: saveMemo, child: const Text("Save")),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                            onPressed: () => Navigator.of(context)
+                                .pushNamedAndRemoveUntil("/", (route) => false),
+                            child: const Text("Cancel"))
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            FittedBox(
-              child: Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: saveMemo, child: const Text("Save")),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  ElevatedButton(
-                      onPressed: () => Navigator.of(context)
-                          .pushNamedAndRemoveUntil("/", (route) => false),
-                      child: const Text("Cancel"))
-                ],
-              ),
-            )
           ],
         ),
       ),

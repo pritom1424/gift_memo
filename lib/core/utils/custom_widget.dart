@@ -72,4 +72,17 @@ class CustomWidgetsUtils {
               ],
             ));
   }
+
+  Container defaultTableCellWidget(
+      double? height, String text, TextStyle? tStyle) {
+    return Container(
+      alignment: Alignment.center,
+      height: height,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: tStyle,
+      ),
+    );
+  }
 }

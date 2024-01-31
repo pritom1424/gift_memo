@@ -52,18 +52,6 @@ class Utils {
     }
   }
 
-  String giftTypeToDetailsText(GiftMemoModel giftMemoModel) {
-    switch (giftMemoModel.gift.gType) {
-      case GiftType.gift:
-        return "${giftMemoModel.gift.giftName}(x${giftMemoModel.gift.giftAmount})";
-      case GiftType.both:
-        return "${giftMemoModel.gift.giftName}(x${giftMemoModel.gift.giftAmount}) + ${giftMemoModel.gift.moneyAmount}(Tk)";
-
-      default:
-        return "${giftMemoModel.gift.moneyAmount}(Tk)";
-    }
-  }
-
   String totalAmountFormatter(double amount) {
     double formattedAmount = 0;
     String formattedString = '';

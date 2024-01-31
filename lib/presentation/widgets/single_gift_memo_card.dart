@@ -23,7 +23,7 @@ class SingleGiftMemoCard extends StatelessWidget {
             children: [
               Text(
                 _giftMemoModel.name,
-                // style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(
                 height: 5,
@@ -33,12 +33,15 @@ class SingleGiftMemoCard extends StatelessWidget {
                   Text(
                     Utils().giftTypeToCardText(_giftMemoModel),
                     style: const TextStyle(
-                        // fontFamily: 'QuickSand-Medium',
+                        fontFamily: 'QuickSand-Medium',
                         fontWeight: FontWeight.normal,
                         color: Colors.black),
                   ),
                   const Spacer(),
-                  Text(_giftMemoModel.gender.name),
+                  Text(
+                    _giftMemoModel.gender.name,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ],
               )
             ],
