@@ -63,4 +63,27 @@ class Utils {
         return "${giftMemoModel.gift.moneyAmount}(Tk)";
     }
   }
+
+  String totalAmountFormatter(double amount) {
+    double formattedAmount = 0;
+    String formattedString = '';
+
+    if (amount.abs() >= 1000 && amount.abs() < 1000000) {
+      formattedAmount = amount / 1000;
+      formattedString = '${formattedAmount.toStringAsFixed(1)}K';
+    } else if (amount.abs() >= 1000000 && amount.abs() < 1000000000) {
+      formattedAmount = amount / 1000000;
+      formattedString = '${formattedAmount.toStringAsFixed(1)}M';
+    } else if (amount.abs() >= 1000000000 && amount.abs() < 1000000000000) {
+      formattedAmount = amount / 1000000000;
+      formattedString = '${formattedAmount.toStringAsFixed(1)}B';
+    } else if (amount.abs() >= 1000000000000) {
+      formattedAmount = amount / 1000000000000;
+      formattedString = '${formattedAmount.toStringAsFixed(1)}T';
+    } else {
+      formattedString = amount.toStringAsFixed(1);
+    }
+
+    return formattedString;
+  }
 }

@@ -12,11 +12,19 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        TopBarFiltersWidget(),
-        Expanded(child: GiftMemoListScreen()),
-      ],
-    );
+    return FutureBuilder(
+        future: Provider.of<GiftMemoManager>(context, listen: false)
+            .fetchMemoList(),
+        builder: (ctx, snapShot) =>
+            (snapShot.connectionState == ConnectionState.waiting)
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : const Column(
+                    children: [
+                      TopBarFiltersWidget(),
+                      Expanded(child: GiftMemoListScreen()),
+                    ],
+                  ));
   }
 }
