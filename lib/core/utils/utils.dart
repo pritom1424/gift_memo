@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
 import 'package:gift_memo/core/giftmemo_enums/guests_gen.dart';
+import 'package:gift_memo/core/utils/values.dart';
+import 'package:gift_memo/data/models/gift.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
+import 'package:gift_memo/domain/giftmemo_manager.dart';
+import 'package:gift_memo/main.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
@@ -73,5 +78,31 @@ class Utils {
     }
 
     return formattedString;
+  }
+
+  void addUpdateRecord(
+      GiftMemoManager gm,
+      int gAmount,
+      double mAmount,
+      BuildContext ctx,
+      String guestName,
+      String giftName,
+      GuestGender gGender) {
+    GiftMemoModel newMemo = GiftMemoModel(
+        id: uuid.v4(),
+        name: guestName,
+        gift: Gift(
+          giftName: giftName,
+          giftAmount: gAmount,
+          moneyAmount: mAmount,
+          gType: Utils().inputAmountsToGiftType(gAmount, mAmount),
+        ),
+        gender: gGender,
+        date: DateTime.now());
+
+    (Values.currentMemoModel != null)
+        ? gm.updateMemo(Values.currentMemoModel!, newMemo)
+        : gm.addMemo(newMemo);
+    Navigator.of(ctx).pushNamedAndRemoveUntil("/", (route) => false);
   }
 }

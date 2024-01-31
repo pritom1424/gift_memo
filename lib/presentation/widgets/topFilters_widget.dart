@@ -45,7 +45,8 @@ class TopBarFiltersWidget extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      TotalSummaryWidget(scSize.height * 0.02, gmanager),
+                      TotalSummaryWidget(scSize.height * 0.03, gmanager),
+                      Text("Summary"),
                       topBarFilters(context)
                     ],
                   ),

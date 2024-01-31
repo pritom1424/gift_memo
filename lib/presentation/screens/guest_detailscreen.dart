@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
-import 'package:gift_memo/core/giftmemo_enums/guests_gen.dart';
-import 'package:gift_memo/core/utils/custom_widget.dart';
 import 'package:gift_memo/core/utils/values.dart';
 import 'package:gift_memo/data/models/gift_memo_model.dart';
 import 'package:gift_memo/presentation/widgets/details_profile_widget.dart';

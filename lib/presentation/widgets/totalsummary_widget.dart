@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gift_memo/core/giftmemo_enums/gift_type.dart';
 import 'package:gift_memo/core/giftmemo_enums/memolist_type.dart';
 import 'package:gift_memo/core/utils/custom_widget.dart';
 import 'package:gift_memo/core/utils/utils.dart';
-import 'package:gift_memo/data/models/gift_memo_model.dart';
 import 'package:gift_memo/domain/giftmemo_manager.dart';
 
 class TotalSummaryWidget extends StatelessWidget {
@@ -52,7 +50,7 @@ class TotalSummaryWidget extends StatelessWidget {
             CustomWidgetsUtils().defaultTableCellWidget(
                 cellHeight, "Records", Theme.of(context).textTheme.bodyLarge),
             CustomWidgetsUtils().defaultTableCellWidget(
-                cellHeight, "Total", Theme.of(context).textTheme.bodyLarge)
+                cellHeight, "Money +", Theme.of(context).textTheme.bodyLarge)
           ]),
           TableRow(children: [
             CustomWidgetsUtils()
@@ -60,7 +58,7 @@ class TotalSummaryWidget extends StatelessWidget {
             CustomWidgetsUtils().defaultTableCellWidget(
                 cellHeight, totalGiftrecords.length.toString(), null),
             CustomWidgetsUtils().defaultTableCellWidget(
-                cellHeight, "Money", Theme.of(context).textTheme.bodyLarge)
+                cellHeight, "Both", Theme.of(context).textTheme.bodyLarge)
           ]),
           TableRow(
             children: [
@@ -79,7 +77,7 @@ class TotalSummaryWidget extends StatelessWidget {
               CustomWidgetsUtils().defaultTableCellWidget(
                   cellHeight, totalBothrecords.length.toString(), null),
               CustomWidgetsUtils().defaultTableCellWidget(cellHeight,
-                  "(Both+Money)", Theme.of(context).textTheme.bodyLarge)
+                  "(Total cash)", Theme.of(context).textTheme.bodyLarge)
             ],
           )
         ],
