@@ -1,12 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gift_memo/core/utils/custom_widget.dart';
-import 'package:gift_memo/core/utils/values.dart';
-import 'package:gift_memo/domain/giftmemo_manager.dart';
-import 'package:gift_memo/presentation/screens/home_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gift_memo/core/generics/variables.dart';
+import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_bloc.dart';
+import 'package:gift_memo/features/gift_memo/presentation/methods/routes.dart';
+import 'package:gift_memo/features/gift_memo/presentation/methods/theme_data.dart';
+import 'package:gift_memo/features/gift_memo/presentation/pages/home_screen.dart';
 import 'package:uuid/uuid.dart';
+import 'injection_container.dart' as di;
 
 const uuid = Uuid();
 var kColorScheme = ColorScheme.fromSeed(
@@ -14,13 +15,12 @@ var kColorScheme = ColorScheme.fromSeed(
 );
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await di.init();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => GiftMemoManager())],
-    child: const MyApp(),
-  ));
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -28,60 +28,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gift Memo',
-      theme: ThemeData().copyWith(
-        colorScheme: kColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimaryContainer,
-          foregroundColor: kColorScheme.primaryContainer,
-        ),
-        cardTheme: const CardTheme().copyWith(
-          color: kColorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kColorScheme.onPrimaryContainer,
-            foregroundColor: kColorScheme.primaryContainer,
-          ),
-        ),
-        textTheme: ThemeData().textTheme.copyWith(
-              titleLarge: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontFamily: 'Amity_Jack',
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 18,
-              ),
-              labelLarge: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 20,
-              ),
-              bodyLarge: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 16,
-              ),
-              bodyMedium: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontFamily: 'QuickSand-Medium',
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 15,
-              ),
-              bodySmall: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Advent-Lt1',
-                color: kColorScheme.onSecondaryContainer,
-                fontSize: 12,
-              ),
-            ),
+    return BlocProvider(
+      create: (context) => di.sl<GiftMemoBloc>(),
+      child: MaterialApp(
+        title: 'Gift Memo',
+        theme: GiftMemoThemeData.getThemeData(kColorScheme),
+        // home: const MyHomePage(),
+        routes: GiftMemoRoutes.routes(),
       ),
-      // home: const MyHomePage(),
-      routes: CustomWidgetsUtils().routeList(context),
     );
   }
 }
@@ -97,6 +51,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    BlocProvider.of<GiftMemoBloc>(context).add(
+        GetMemoListEvent(giftMemosFilters: GenericVariables.currentFilter));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -104,9 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Values.currentMemoModel = null;
+                  GenericVariables.currentGiftMemo = null;
                   Navigator.of(context).pushNamedAndRemoveUntil(
-                      Values.inputScreenRouteName, (route) => false);
+                      GenericVariables.inputScreenRouteName, (route) => false);
                 },
                 icon: const Icon(Icons.add))
           ],
