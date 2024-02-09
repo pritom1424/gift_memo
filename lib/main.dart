@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gift_memo/core/generics/variables.dart';
+import 'package:gift_memo/features/gift_memo/domain/entities/gift_memo.dart';
 import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_bloc.dart';
 import 'package:gift_memo/features/gift_memo/presentation/methods/routes.dart';
 import 'package:gift_memo/features/gift_memo/presentation/methods/theme_data.dart';
@@ -52,6 +53,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
+    print("home page build called");
     BlocProvider.of<GiftMemoBloc>(context).add(
         GetMemoListEvent(giftMemosFilters: GenericVariables.currentFilter));
     super.initState();
@@ -60,18 +62,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  GenericVariables.currentGiftMemo = null;
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      GenericVariables.inputScreenRouteName, (route) => false);
-                },
-                icon: const Icon(Icons.add))
-          ],
-        ),
-        body: const HomeScreen());
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: [
+          IconButton(
+              onPressed: () {
+                GenericVariables.currentGiftMemo = null;
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    GenericVariables.inputScreenRouteName, (route) => false);
+              },
+              icon: const Icon(Icons.add))
+        ],
+      ),
+      body: HomeScreen(),
+    );
   }
 }

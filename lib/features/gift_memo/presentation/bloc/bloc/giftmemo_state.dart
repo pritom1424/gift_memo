@@ -11,7 +11,13 @@ final class EmptyState extends GiftMemoState {}
 
 final class LoadingState extends GiftMemoState {}
 
-final class VoidLoadedState extends GiftMemoState {}
+final class VoidLoadedState extends GiftMemoState {
+  @override
+  // TODO: implement props
+  List<Object> get props => super.props;
+}
+
+final class DeleteState extends GiftMemoState {}
 
 final class GetLoadedState extends GiftMemoState {
   final List<GiftMemo> memos;

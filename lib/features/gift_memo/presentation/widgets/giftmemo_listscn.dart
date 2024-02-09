@@ -18,10 +18,7 @@ class GiftMemoListScreen extends StatelessWidget {
         : ListView.builder(
             itemCount: memos.length,
             itemBuilder: (ctx, i) => Dismissible(
-                  onDismissed: (dis) {
-                    BlocProvider.of<GiftMemoBloc>(context)
-                        .add(DeleteMemoFromListEvent(giftMemo: memos[i]));
-                  },
+                  onDismissed: (dis) {},
                   key: ValueKey(memos),
                   confirmDismiss: (dir) => showDialog(
                       context: context,
@@ -34,6 +31,9 @@ class GiftMemoListScreen extends StatelessWidget {
                             actions: [
                               TextButton(
                                   onPressed: () {
+                                    BlocProvider.of<GiftMemoBloc>(context).add(
+                                        DeleteMemoFromListEvent(
+                                            giftMemo: memos[i]));
                                     return Navigator.of(context).pop(true);
                                   },
                                   child: const Text("Yes")),

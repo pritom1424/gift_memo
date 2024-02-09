@@ -6,20 +6,21 @@ import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_blo
 import 'package:gift_memo/features/gift_memo/presentation/widgets/giftmemo_listscn.dart';
 import 'package:gift_memo/features/gift_memo/presentation/widgets/topFilters_widget.dart';
 
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //print("add event called");
+    print("home screen build called");
+
     return BlocConsumer<GiftMemoBloc, GiftMemoState>(
         listener: (context, state) {
-      if (state is EmptyState || state is VoidLoadedState) {
+      if (state is VoidLoadedState) {
         BlocProvider.of<GiftMemoBloc>(context).add(
             GetMemoListEvent(giftMemosFilters: GenericVariables.currentFilter));
       }
     }, builder: (ctx, state) {
+      print("home state: ${state.toString()}");
       if (state is LoadingState) {
         return const Center(
           child: CircularProgressIndicator(),

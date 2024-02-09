@@ -29,21 +29,18 @@ class GiftMemoBloc extends Bloc<GiftmemoEvent, GiftMemoState> {
       required this.updateGiftMemo})
       : super(EmptyState()) {
     on<AddMemoToListEvent>((event, emit) async {
-      emit(LoadingState());
       final failOrvoid =
           await addGiftMemo(AddGiftParams(giftMemo: event.giftMemo));
       emit(_eitherLoadedORErrorState(failOrvoid));
     });
 
     on<UpdateMemoFromListEvent>((event, emit) async {
-      emit(LoadingState());
       final failOrvoid = await updateGiftMemo(
           UpdateGiftParams(id: event.id, giftMemo: event.giftMemo));
       emit(_eitherLoadedORErrorState(failOrvoid));
     });
 
     on<DeleteMemoFromListEvent>((event, emit) async {
-      emit(LoadingState());
       final failorvoid =
           await deleteGiftMemo(DeleteGiftParams(giftMemo: event.giftMemo));
 
