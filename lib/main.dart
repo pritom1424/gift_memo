@@ -6,6 +6,7 @@ import 'package:gift_memo/features/gift_memo/domain/entities/gift_memo.dart';
 import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_bloc.dart';
 import 'package:gift_memo/features/gift_memo/presentation/methods/routes.dart';
 import 'package:gift_memo/features/gift_memo/presentation/methods/theme_data.dart';
+import 'package:gift_memo/features/gift_memo/presentation/pages/home_screen%20copy.dart';
 import 'package:gift_memo/features/gift_memo/presentation/pages/home_screen.dart';
 import 'package:uuid/uuid.dart';
 import 'injection_container.dart' as di;
@@ -56,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print("home page build called");
     BlocProvider.of<GiftMemoBloc>(context).add(
         GetMemoListEvent(giftMemosFilters: GenericVariables.currentFilter));
+    print('initstate homepage');
     super.initState();
   }
 
@@ -74,7 +76,15 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.add))
         ],
       ),
-      body: HomeScreen(),
+      body: BlocListener<GiftMemoBloc, GiftMemoState>(
+          listener: (context, state) {
+            if (state is VoidLoadedState || state is EmptyState) {
+              BlocProvider.of<GiftMemoBloc>(context).add(GetMemoListEvent(
+                  giftMemosFilters: GenericVariables.currentFilter));
+            }
+            ;
+          },
+          child: HomeScreen()),
     );
   }
 }

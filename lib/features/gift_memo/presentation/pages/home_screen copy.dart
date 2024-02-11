@@ -6,40 +6,40 @@ import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_blo
 import 'package:gift_memo/features/gift_memo/presentation/widgets/giftmemo_listscn.dart';
 import 'package:gift_memo/features/gift_memo/presentation/widgets/topFilters_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreenCopy extends StatelessWidget {
+  final GiftMemoState state;
+  const HomeScreenCopy({required this.state, super.key});
 
   @override
   Widget build(BuildContext context) {
     print("home screen build called");
 
-    return BlocBuilder<GiftMemoBloc, GiftMemoState>(builder: (ctx, state) {
-      print("home state: ${state.toString()}");
-      if (state is LoadingState) {
-        print("loading emitted!");
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is GetLoadedState) {
-        final filteredList = GiftsFilterTypeToGiftListConverter(
-                giftMemos: state.memos, mType: GenericVariables.currentFilter)
-            .getfilterdMemo;
-        print("get loaded emitted!");
-        return Column(
-          children: [
-            Flexible(child: TopBarFiltersWidget(memos: state.memos)),
-            Flexible(flex: 2, child: GiftMemoListScreen(memos: filteredList)),
-          ],
-        );
-      } else if (state is ErrorState) {
-        print("error emitted!");
-        return Center(
-          child: Text(state.message),
-        );
-      }
+    if (state is LoadingState) {
+      print("loading emitted!");
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (state is GetLoadedState) {
+      final GetLoadedState modState = state as GetLoadedState;
+      final filteredList = GiftsFilterTypeToGiftListConverter(
+              giftMemos: modState.memos, mType: GenericVariables.currentFilter)
+          .getfilterdMemo;
+      print("get loaded emitted!");
+      return Column(
+        children: [
+          Flexible(child: TopBarFiltersWidget(memos: modState.memos)),
+          Flexible(flex: 2, child: GiftMemoListScreen(memos: filteredList)),
+        ],
+      );
+    } else if (state is ErrorState) {
+      print("error emitted!");
+      final ErrorState modState = state as ErrorState;
+      return Center(
+        child: Text(modState.message),
+      );
+    }
 
-      return const Center(child: Text("Loading..."));
-    });
+    return const Center(child: Text("Loading..."));
 
     /* return BlocConsumer<GiftMemoBloc, GiftMemoState>(
         listener: (context, state) {
