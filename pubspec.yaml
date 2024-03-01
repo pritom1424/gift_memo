@@ -93,6 +93,7 @@ flutter:
   # example:
   assets:
     - assets/images/
+    - assets/icon/
   fonts:
     - family: Amity_Jack
       fonts:

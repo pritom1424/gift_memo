@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gift_memo/features/gift_memo/domain/entities/gift_memo.dart';
 import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_bloc.dart';
+import 'package:gift_memo/features/gift_memo/presentation/pages/splashscreen.dart';
 import 'package:gift_memo/features/gift_memo/presentation/widgets/single_gift_memo_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,9 @@ class GiftMemoListScreen extends StatelessWidget {
                                     BlocProvider.of<GiftMemoBloc>(context).add(
                                         DeleteMemoFromListEvent(
                                             giftMemo: memos[i]));
-                                    return Navigator.of(context).pop(true);
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (ctx) => SplashScreen()));
                                   },
                                   child: const Text("Yes")),
                               TextButton(

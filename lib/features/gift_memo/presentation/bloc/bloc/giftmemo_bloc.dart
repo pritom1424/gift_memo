@@ -1,21 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
-import 'package:gift_memo/core/enums/giftmemos_filter.dart';
-import 'package:gift_memo/core/errors/failures.dart';
-import 'package:gift_memo/features/gift_memo/domain/entities/gift_memo.dart';
-import 'package:gift_memo/features/gift_memo/domain/usecases/add_gift_memo.dart';
-import 'package:gift_memo/features/gift_memo/domain/usecases/delete_gift_memo.dart';
-import 'package:gift_memo/features/gift_memo/domain/usecases/get_gift_memos.dart';
-import 'package:gift_memo/features/gift_memo/domain/usecases/update_gift_memo.dart';
+import 'package:gift_memo/core/generics/constants.dart';
 
+import 'blocs.dart';
 part 'giftmemo_event.dart';
 part 'giftmemo_state.dart';
-
-const String SERVER_FAILURE_MESSAGE = "Server failed";
-const String INTERNET_FAILURE_MESSAGE = "Internet connection failed";
-const String INVALID_INPUT_FAILURE_MESSAGE =
-    "Invalid Input - The number must be non negative";
 
 class GiftMemoBloc extends Bloc<GiftmemoEvent, GiftMemoState> {
   final AddGiftMemo addGiftMemo;
@@ -72,11 +59,11 @@ class GiftMemoBloc extends Bloc<GiftmemoEvent, GiftMemoState> {
   String _mapFailureToMessage(Failures failure) {
     switch (failure.runtimeType) {
       case ServerFailure _:
-        return SERVER_FAILURE_MESSAGE;
+        return Constants.SERVER_FAILURE_MESSAGE;
       case InterNetConnectionFailure _:
-        return INTERNET_FAILURE_MESSAGE;
+        return Constants.INTERNET_FAILURE_MESSAGE;
       default:
-        return 'Unexpected error';
+        return Constants.DEFAULT_FAILURE_MESSAGE;
     }
   }
 }

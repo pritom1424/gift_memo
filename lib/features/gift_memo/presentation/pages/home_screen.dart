@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gift_memo/core/converters/converters.dart';
+import 'package:gift_memo/core/generics/constants.dart';
 import 'package:gift_memo/core/generics/variables.dart';
 import 'package:gift_memo/features/gift_memo/presentation/bloc/bloc/giftmemo_bloc.dart';
 import 'package:gift_memo/features/gift_memo/presentation/widgets/giftmemo_listscn.dart';
@@ -11,68 +12,45 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("home screen build called");
-
-    return BlocBuilder<GiftMemoBloc, GiftMemoState>(builder: (ctx, state) {
-      print("home state: ${state.toString()}");
-      if (state is LoadingState) {
-        print("loading emitted!");
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is GetLoadedState) {
-        final filteredList = GiftsFilterTypeToGiftListConverter(
-                giftMemos: state.memos, mType: GenericVariables.currentFilter)
-            .getfilterdMemo;
-        print("get loaded emitted!");
-        return Column(
-          children: [
-            Flexible(child: TopBarFiltersWidget(memos: state.memos)),
-            Flexible(flex: 2, child: GiftMemoListScreen(memos: filteredList)),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(Constants.APPNAME),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  GenericVariables.currentGiftMemo = null;
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      GenericVariables.inputScreenRouteName, (route) => false);
+                },
+                icon: const Icon(Icons.add))
           ],
-        );
-      } else if (state is ErrorState) {
-        print("error emitted!");
-        return Center(
-          child: Text(state.message),
-        );
-      }
+        ),
+        body: BlocBuilder<GiftMemoBloc, GiftMemoState>(builder: (ctx, state) {
+          if (state is LoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is GetLoadedState) {
+            final filteredList = GiftsFilterTypeToGiftListConverter(
+                    giftMemos: state.memos,
+                    mType: GenericVariables.currentFilter)
+                .getfilterdMemo;
 
-      return const Center(child: Text("Loading..."));
-    });
-
-    /* return BlocConsumer<GiftMemoBloc, GiftMemoState>(
-        listener: (context, state) {
-      if (state is VoidLoadedState) {
-        BlocProvider.of<GiftMemoBloc>(context).add(
-            GetMemoListEvent(giftMemosFilters: GenericVariables.currentFilter));
-      }
-    }, builder: (ctx, state) {
-      print("home state: ${state.toString()}");
-      if (state is LoadingState) {
-        print("loading emitted!");
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is GetLoadedState) {
-        final filteredList = GiftsFilterTypeToGiftListConverter(
-                giftMemos: state.memos, mType: GenericVariables.currentFilter)
-            .getfilterdMemo;
-        print("get loaded emitted!");
-        return Column(
-          children: [
-            Flexible(child: TopBarFiltersWidget(memos: state.memos)),
-            Flexible(flex: 2, child: GiftMemoListScreen(memos: filteredList)),
-          ],
-        );
-      } else if (state is ErrorState) {
-        print("error emitted!");
-        return Center(
-          child: Text(state.message),
-        );
-      }
-
-      return const Center(child: Text("Loading..."));
-    }); */
+            return Column(
+              children: [
+                Flexible(child: TopBarFiltersWidget(memos: state.memos)),
+                Flexible(
+                    flex: 2, child: GiftMemoListScreen(memos: filteredList)),
+              ],
+            );
+          } else if (state is ErrorState) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
+          context.read<GiftMemoBloc>().add(GetMemoListEvent(
+              giftMemosFilters: GenericVariables.currentFilter));
+          return Center(child: Text("Loading..."));
+        }));
   }
 }
